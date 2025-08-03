@@ -23,4 +23,19 @@ public class UserController {
   public List<User> getAllUsers() {
     return userService.getAllUsers();
   }
+
+  @GetMapping(params = "id")
+  public User getUserById(@RequestParam("id") Long id) {
+    return userService.getUserById(id);
+  }
+
+  @DeleteMapping(params = "id")
+  public void deleteUserById(@RequestParam("id") Long id) {
+    userService.deleteUserById(id);
+  }
+
+  @PutMapping(params = "id")
+  public void updateUser(@RequestParam("id") Long id, @RequestParam("email") String email) {
+    userService.updateUser(id, email);
+  }
 }
