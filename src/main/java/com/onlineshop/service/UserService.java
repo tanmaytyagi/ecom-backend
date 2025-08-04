@@ -3,9 +3,9 @@ package com.onlineshop.service;
 import com.onlineshop.model.User;
 import com.onlineshop.model.dto.CreateUserDto;
 import com.onlineshop.repository.UserRepository;
-
 import java.util.List;
 import java.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +13,7 @@ public class UserService {
 
   private final UserRepository userRepository;
 
+  @Autowired
   public UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
@@ -25,7 +26,7 @@ public class UserService {
     String shortUuid = UUID.randomUUID().toString().substring(0, 8);
     User user =
         User.builder()
-            .userId(shortUuid)
+            .userId("USER-" + shortUuid)
             .name(userData.getName())
             .email(userData.getEmail())
             .mobile(userData.getMobile())
