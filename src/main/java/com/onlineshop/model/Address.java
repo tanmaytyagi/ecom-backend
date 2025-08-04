@@ -15,9 +15,8 @@ public class Address {
   @Column(name = "address_id")
   private String addressId;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-  private User user;
+  @Column(name = "user_id")
+  private String userId;
 
   @Column(name = "full_address")
   private String fullAddress;
