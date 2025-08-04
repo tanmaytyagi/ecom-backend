@@ -3,6 +3,8 @@ package com.onlineshop.service;
 import com.onlineshop.model.User;
 import com.onlineshop.model.dto.CreateUserDto;
 import com.onlineshop.repository.UserRepository;
+
+import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +32,9 @@ public class UserService {
             .password(userData.getPassword())
             .build();
     return userRepository.save(user);
+  }
+
+  public List<User> getAllUsers() {
+    return userRepository.findAll();
   }
 }
