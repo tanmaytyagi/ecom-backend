@@ -3,6 +3,7 @@ package com.onlineshop.controller;
 import com.onlineshop.model.Address;
 import com.onlineshop.model.dto.CreateAddressDto;
 import com.onlineshop.service.AddressService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +24,9 @@ public class AddressController {
     return ResponseEntity.ok().body(createdAddress);
   }
 
-  @GetMapping("/getAddress/{userId}")
-  public ResponseEntity<Address> getAddress(@PathVariable("userId") String userId) {
-    Address address = addressService.getAddress(userId);
-    return ResponseEntity.ok().body(address);
+  @GetMapping("/getAddresses/{userId}")
+  public ResponseEntity<List<Address>> getAddress(@PathVariable("userId") String userId) {
+    List<Address> addresses = addressService.getAddresses(userId);
+    return ResponseEntity.ok().body(addresses);
   }
 }

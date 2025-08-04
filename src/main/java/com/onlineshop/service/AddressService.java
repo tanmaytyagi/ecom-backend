@@ -3,6 +3,7 @@ package com.onlineshop.service;
 import com.onlineshop.model.Address;
 import com.onlineshop.model.dto.CreateAddressDto;
 import com.onlineshop.repository.AddressRepository;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class AddressService {
     return addressRepository.save(address);
   }
 
-  public Address getAddress(String userId) {
-    Optional<Address> address = addressRepository.findByUserId(userId);
+  public List<Address> getAddresses(String userId) {
+    Optional<List<Address>> address = addressRepository.findByUserId(userId);
     return address.orElse(null);
   }
 }
