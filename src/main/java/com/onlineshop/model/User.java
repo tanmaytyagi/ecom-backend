@@ -12,11 +12,18 @@ import lombok.*;
 public class User {
 
   @Id
-  @Column(nullable = false, unique = true)
+  @Column(name = "user_id", nullable = false, unique = true)
   private String userId;
 
+  @Column(name = "name")
   private String name;
+
+  @Column(name = "email")
   private String email;
+
+  @Column(name = "mobile")
   private String mobile;
+
+  @Column(name = "password")
   private String password;
 }

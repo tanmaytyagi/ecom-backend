@@ -4,13 +4,29 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.*;
 
+@Entity
+@Table(name = "orders")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Order {
 
-  @Id private String orderId;
-  private String userId;
+  @Id
+  @Column(name = "order_id")
+  private String orderId;
 
-  private String addressId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+  private User user;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "address_id", referencedColumnName = "address_id", nullable = false)
+  private Address address;
+
+  @Column(name = "status")
   private String status;
+
+  @Column(name = "created_at")
   private LocalDateTime createdAt;
 }
