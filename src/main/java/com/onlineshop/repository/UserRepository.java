@@ -3,10 +3,11 @@ package com.onlineshop.repository;
 import com.onlineshop.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends JpaRepository<User, Long> {
-  User findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, String> {
 
-  User findById(long id);
+  // getAllUsers → already available as findAll()
 
-  void deleteById(long id);
+  // getUserById → available in CrudRepository interface
+
+  // save(User)  → Set/add/update a user available in CrudRepository interface
 }
