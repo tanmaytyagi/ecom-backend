@@ -12,9 +12,22 @@ import lombok.*;
 public class Cart {
 
   @Id
-  @Column(name = "cart_id")
-  private String cartId;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
 
-  @Column(name = "cart_value")
-  private Double cartValue;
+  @Column(name = "user_id")
+  private String userId;
+
+  @Column(name = "product_id")
+  private String productId;
+
+  @Column(name = "product_name")
+  private String productName;
+
+  @Column(name = "quantity")
+  private Integer quantity;
+
+  @Column(name = "product_price")
+  private Double productPrice;
 }

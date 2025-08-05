@@ -12,12 +12,10 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
-  private final CartService cartService;
 
   @Autowired
-  public UserService(UserRepository userRepository, CartService cartService) {
+  public UserService(UserRepository userRepository) {
     this.userRepository = userRepository;
-    this.cartService = cartService;
   }
 
   public User getUserById(String userId) {
@@ -34,7 +32,6 @@ public class UserService {
             .mobile(userData.getMobile())
             .password(userData.getPassword())
             .build();
-    cartService.createCart(user.getUserId());
     return userRepository.save(user);
   }
 
