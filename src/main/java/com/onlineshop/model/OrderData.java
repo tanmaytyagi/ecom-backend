@@ -16,13 +16,11 @@ public class OrderData {
   @Column(name = "id")
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false)
-  private Order order;
+  @Column(name = "order_id")
+  private String order;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false)
-  private Product product;
+  @Column(name = "product_id")
+  private String product;
 
   @Column(name = "quantity")
   private Integer quantity;

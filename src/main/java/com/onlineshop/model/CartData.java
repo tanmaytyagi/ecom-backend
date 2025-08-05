@@ -16,13 +16,11 @@ public class CartData {
   @Column(name = "id")
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "cart_id", referencedColumnName = "cart_id", nullable = false)
-  private Cart cart;
+  @Column(name = "cart_id")
+  private String cartId;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false)
-  private Product product;
+  @Column(name = "product_id")
+  private String productId;
 
   @Column(name = "product_name")
   private String productName;
