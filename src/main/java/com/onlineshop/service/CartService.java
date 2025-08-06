@@ -10,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CartService {
@@ -69,5 +70,10 @@ public class CartService {
     }
 
     return cartRepository.findByUserId(item.getUserId());
+  }
+
+  @Transactional
+  public void clearCart(String userId) {
+    cartRepository.deleteByUserId(userId);
   }
 }

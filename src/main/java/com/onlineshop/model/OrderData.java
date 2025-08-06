@@ -18,10 +18,10 @@ public class OrderData {
   private String id;
 
   @Column(name = "order_id")
-  private String order;
+  private String orderId;
 
   @Column(name = "product_id")
-  private String product;
+  private String productId;
 
   @Column(name = "quantity")
   private Integer quantity;

@@ -2,6 +2,7 @@ package com.onlineshop.controller;
 
 import com.onlineshop.model.CartItems;
 import com.onlineshop.model.dto.ItemDto;
+import com.onlineshop.model.dto.ResponseBody;
 import com.onlineshop.service.CartService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,14 @@ public class CartController {
   public ResponseEntity<List<CartItems>> removeItem(@RequestBody ItemDto item) {
     List<CartItems> items = cartService.removeItem(item);
     return ResponseEntity.ok(items);
+  }
+
+  @DeleteMapping("/clearCart/{userId}")
+  public ResponseEntity<ResponseBody> clearCart(@PathVariable("userId") String userId) {
+    cartService.clearCart(userId);
+    ResponseBody response = new ResponseBody();
+    response.setMessage("Cart cleared successfully");
+    response.setStatus("SUCCESS");
+    return ResponseEntity.ok(response);
   }
 }
