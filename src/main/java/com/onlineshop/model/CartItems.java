@@ -4,17 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "carts")
+@Table(
+    name = "carts",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "product_id"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Cart {
+public class CartItems {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "id", nullable = false, unique = true)
+  private String id;
 
   @Column(name = "user_id")
   private String userId;

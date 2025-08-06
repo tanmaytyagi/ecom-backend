@@ -12,7 +12,7 @@ import lombok.*;
 public class Address {
 
   @Id
-  @Column(name = "address_id")
+  @Column(name = "address_id", nullable = false, unique = true)
   private String addressId;
 
   @Column(name = "user_id")

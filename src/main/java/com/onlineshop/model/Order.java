@@ -13,7 +13,7 @@ import lombok.*;
 public class Order {
 
   @Id
-  @Column(name = "order_id")
+  @Column(name = "order_id", nullable = false, unique = true)
   private String orderId;
 
   @Column(name = "user_id")

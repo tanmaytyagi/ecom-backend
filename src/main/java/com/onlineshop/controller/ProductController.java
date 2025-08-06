@@ -29,4 +29,20 @@ public class ProductController {
     Product createdProduct = productService.createProduct(productData);
     return ResponseEntity.ok().body(createdProduct);
   }
+
+  @PostMapping("/createProductBulk")
+  public ResponseEntity<List<Product>> createProductBulk(
+      @RequestBody List<CreateProductDto> productsData) {
+    List<Product> createdProducts = productService.createProductBulk(productsData);
+    return ResponseEntity.ok().body(createdProducts);
+  }
+
+  @GetMapping("/getProduct/{productId}")
+  public ResponseEntity<Product> getProduct(@PathVariable("productId") String productId) {
+    Product product = productService.getProductById(productId);
+    if (product == null) {
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(product);
+  }
 }

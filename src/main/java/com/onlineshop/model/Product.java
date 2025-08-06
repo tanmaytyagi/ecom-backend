@@ -12,7 +12,7 @@ import lombok.*;
 public class Product {
 
   @Id
-  @Column(name = "product_id")
+  @Column(name = "product_id", nullable = false, unique = true)
   private String productId;
 
   @Column(name = "product_name")

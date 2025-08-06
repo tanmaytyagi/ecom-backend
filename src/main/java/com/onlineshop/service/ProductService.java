@@ -3,6 +3,7 @@ package com.onlineshop.service;
 import com.onlineshop.model.Product;
 import com.onlineshop.model.dto.CreateProductDto;
 import com.onlineshop.repository.ProductRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,17 @@ public class ProductService {
             .build();
 
     return productRepository.save(product);
+  }
+
+  public List<Product> createProductBulk(List<CreateProductDto> productsData) {
+    List<Product> products = new ArrayList<>();
+    for (CreateProductDto productData : productsData) {
+      products.add(createProduct(productData));
+    }
+    return products;
+  }
+
+  public Product getProductById(String productId) {
+    return productRepository.findById(productId).orElse(null);
   }
 }

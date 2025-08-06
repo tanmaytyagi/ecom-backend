@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "order_data")
+@Table(
+    name = "order_data",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"order_id", "product_id"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,9 +14,8 @@ import lombok.*;
 public class OrderData {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
+  @Column(name = "id", nullable = false, unique = true)
+  private String id;
 
   @Column(name = "order_id")
   private String order;

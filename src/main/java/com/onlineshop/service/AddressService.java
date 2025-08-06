@@ -4,7 +4,6 @@ import com.onlineshop.model.Address;
 import com.onlineshop.model.dto.CreateAddressDto;
 import com.onlineshop.repository.AddressRepository;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,6 @@ public class AddressService {
   }
 
   public List<Address> getAddresses(String userId) {
-    Optional<List<Address>> address = addressRepository.findByUserId(userId);
-    return address.orElse(null);
+    return addressRepository.findByUserId(userId);
   }
 }
