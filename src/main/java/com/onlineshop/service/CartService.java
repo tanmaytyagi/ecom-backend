@@ -62,6 +62,7 @@ public class CartService {
     CartItems fetchedItem =
         cartRepository.findByUserIdAndProductId(item.getUserId(), item.getProductId());
     fetchedItem.setQuantity(fetchedItem.getQuantity() - 1);
+    cartRepository.save(fetchedItem);
 
     if (fetchedItem.getQuantity() == 0) {
       cartRepository.deleteById(fetchedItem.getId());
