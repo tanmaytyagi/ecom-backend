@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(
-    name = "carts",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "product_id"}))
+@Table(name = "carts")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,9 +14,6 @@ public class CartItems {
   @Id
   @Column(name = "id", nullable = false, unique = true)
   private String id;
-
-  @Column(name = "user_id")
-  private String userId;
 
   @Column(name = "product_id")
   private String productId;

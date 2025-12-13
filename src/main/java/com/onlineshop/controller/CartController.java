@@ -1,7 +1,6 @@
 package com.onlineshop.controller;
 
 import com.onlineshop.model.CartItems;
-import com.onlineshop.model.dto.ItemDto;
 import com.onlineshop.model.dto.ResponseBody;
 import com.onlineshop.service.CartService;
 import java.util.List;
@@ -19,27 +18,27 @@ public class CartController {
     this.cartService = cartService;
   }
 
-  @GetMapping("/{userId}")
-  public ResponseEntity<List<CartItems>> getCart(@PathVariable("userId") String userId) {
-    List<CartItems> items = cartService.getCartByUserId(userId);
+  @GetMapping("/getCart")
+  public ResponseEntity<List<CartItems>> getCart() {
+    List<CartItems> items = cartService.getCart();
     return ResponseEntity.ok(items);
   }
 
-  @PostMapping("/addItem")
-  public ResponseEntity<List<CartItems>> addItem(@RequestBody ItemDto item) {
-    List<CartItems> items = cartService.addItem(item);
+  @PostMapping("/addItem/{productId}")
+  public ResponseEntity<List<CartItems>> addItem(@PathVariable("productId") String productId) {
+    List<CartItems> items = cartService.addItem(productId);
     return ResponseEntity.ok(items);
   }
 
-  @PostMapping("/removeItem")
-  public ResponseEntity<List<CartItems>> removeItem(@RequestBody ItemDto item) {
-    List<CartItems> items = cartService.removeItem(item);
+  @PostMapping("/removeItem/{productId}")
+  public ResponseEntity<List<CartItems>> removeItem(@PathVariable("productId") String productId) {
+    List<CartItems> items = cartService.removeItem(productId);
     return ResponseEntity.ok(items);
   }
 
-  @DeleteMapping("/clearCart/{userId}")
-  public ResponseEntity<ResponseBody> clearCart(@PathVariable("userId") String userId) {
-    cartService.clearCart(userId);
+  @DeleteMapping("/clearCart")
+  public ResponseEntity<ResponseBody> clearCart() {
+    cartService.clearCart();
     ResponseBody response = new ResponseBody();
     response.setMessage("Cart cleared successfully");
     response.setStatus("SUCCESS");

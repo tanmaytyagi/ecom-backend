@@ -2,7 +2,6 @@ package com.onlineshop.service;
 
 import com.onlineshop.model.CartItems;
 import com.onlineshop.model.Product;
-import com.onlineshop.model.dto.ItemDto;
 import com.onlineshop.repository.CartRepository;
 import com.onlineshop.repository.ProductRepository;
 import java.util.List;
@@ -23,16 +22,15 @@ public class CartService {
     this.productRepository = productRepository;
   }
 
-  public List<CartItems> getCartByUserId(String userId) {
-    return cartRepository.findByUserId(userId);
+  public List<CartItems> getCart() {
+    return cartRepository.findAll();
   }
 
-  public List<CartItems> addItem(ItemDto item) {
-    boolean itemExists =
-        cartRepository.existsByUserIdAndProductId(item.getUserId(), item.getProductId());
+  public List<CartItems> addItem(String productId) {
+    boolean itemExists = cartRepository.existsByProductId(productId);
 
     if (!itemExists) {
-      Optional<Product> product = productRepository.findById(item.getProductId());
+      Optional<Product> product = productRepository.findById(productId);
       if (product.isEmpty()) {
         return null;
       }
@@ -42,38 +40,46 @@ public class CartService {
       CartItems cartItem =
           CartItems.builder()
               .id(shortUuid)
-              .userId(item.getUserId())
-              .productId(item.getProductId())
+              .productId(productId)
               .productPrice(product.get().getProductPrice())
               .productName(product.get().getProductName())
-              .quantity(0)
+              .quantity(1)
               .build();
       cartRepository.save(cartItem);
+      return cartRepository.findAll();
     }
 
-    CartItems fetchedItem =
-        cartRepository.findByUserIdAndProductId(item.getUserId(), item.getProductId());
-    fetchedItem.setQuantity(fetchedItem.getQuantity() + 1);
-    cartRepository.save(fetchedItem);
+    Optional<CartItems> fetchedItemOpt = cartRepository.findByProductId(productId);
+    if (fetchedItemOpt.isPresent()) {
+      CartItems fetchedItem = fetchedItemOpt.get();
+      fetchedItem.setQuantity(fetchedItem.getQuantity() + 1);
+      cartRepository.save(fetchedItem);
+    }
 
-    return cartRepository.findByUserId(item.getUserId());
+    return cartRepository.findAll();
   }
 
-  public List<CartItems> removeItem(ItemDto item) {
-    CartItems fetchedItem =
-        cartRepository.findByUserIdAndProductId(item.getUserId(), item.getProductId());
+  public List<CartItems> removeItem(String productId) {
+    Optional<CartItems> fetchedItemOpt = cartRepository.findByProductId(productId);
+
+    if (fetchedItemOpt.isEmpty()) {
+      return cartRepository.findAll();
+    }
+
+    CartItems fetchedItem = fetchedItemOpt.get();
     fetchedItem.setQuantity(fetchedItem.getQuantity() - 1);
-    cartRepository.save(fetchedItem);
 
     if (fetchedItem.getQuantity() == 0) {
       cartRepository.deleteById(fetchedItem.getId());
+    } else {
+      cartRepository.save(fetchedItem);
     }
 
-    return cartRepository.findByUserId(item.getUserId());
+    return cartRepository.findAll();
   }
 
   @Transactional
-  public void clearCart(String userId) {
-    cartRepository.deleteByUserId(userId);
+  public void clearCart() {
+    cartRepository.deleteAll();
   }
 }

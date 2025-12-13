@@ -16,12 +16,6 @@ public class Order {
   @Column(name = "order_id", nullable = false, unique = true)
   private String orderId;
 
-  @Column(name = "user_id")
-  private String userId;
-
-  @Column(name = "address_id")
-  private String addressId;
-
   @Column(name = "status")
   private String status;
 

@@ -3,7 +3,6 @@ package com.onlineshop.service;
 import com.onlineshop.model.CartItems;
 import com.onlineshop.model.Order;
 import com.onlineshop.model.OrderData;
-import com.onlineshop.model.dto.CreateOrderDto;
 import com.onlineshop.repository.OrderDataRepository;
 import com.onlineshop.repository.OrderRepository;
 import java.time.LocalDateTime;
@@ -28,21 +27,14 @@ public class OrderService {
     this.cartService = cartService;
   }
 
-  public List<Order> createOrder(CreateOrderDto orderData) {
-    List<CartItems> cartItems = cartService.getCartByUserId(orderData.getUserId());
+  public Order createOrder() {
+    List<CartItems> cartItems = cartService.getCart();
     String orderId = "ODER-" + UUID.randomUUID().toString().substring(0, 8);
 
     Order order =
-        Order.builder()
-            .orderId(orderId)
-            .userId(orderData.getUserId())
-            .addressId(orderData.getAddressId())
-            .status("PENDING")
-            .createdAt(LocalDateTime.now())
-            .build();
+        Order.builder().orderId(orderId).status("PENDING").createdAt(LocalDateTime.now()).build();
     orderRepository.save(order);
 
-    // saving for tracking - admin
     for (CartItems cartItem : cartItems) {
       OrderData orderEntry =
           OrderData.builder()
@@ -54,11 +46,11 @@ public class OrderService {
       orderDataRepository.save(orderEntry);
     }
 
-    cartService.clearCart(orderData.getUserId());
-    return orderRepository.findByUserId(orderData.getUserId());
+    cartService.clearCart();
+    return order;
   }
 
-  public List<Order> getOrderHistory(String userId) {
-    return orderRepository.findByUserId(userId);
+  public List<Order> getOrderHistory() {
+    return orderRepository.findAll();
   }
 }

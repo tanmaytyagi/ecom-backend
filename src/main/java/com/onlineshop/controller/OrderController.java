@@ -1,7 +1,6 @@
 package com.onlineshop.controller;
 
 import com.onlineshop.model.Order;
-import com.onlineshop.model.dto.CreateOrderDto;
 import com.onlineshop.service.OrderService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +18,14 @@ public class OrderController {
   }
 
   @PostMapping("/createOrder")
-  public ResponseEntity<List<Order>> createOrder(@RequestBody CreateOrderDto orderData) {
-    List<Order> orderHistory = orderService.createOrder(orderData);
-    return ResponseEntity.ok(orderHistory);
+  public ResponseEntity<Order> createOrder() {
+    Order order = orderService.createOrder();
+    return ResponseEntity.ok(order);
   }
 
-  @GetMapping("/orderHistory/{userId}")
-  public ResponseEntity<List<Order>> getOrderHistory(@PathVariable("userId") String userId) {
-    List<Order> orderHistory = orderService.getOrderHistory(userId);
+  @GetMapping("/orderHistory")
+  public ResponseEntity<List<Order>> getOrderHistory() {
+    List<Order> orderHistory = orderService.getOrderHistory();
     return ResponseEntity.ok(orderHistory);
   }
 }
