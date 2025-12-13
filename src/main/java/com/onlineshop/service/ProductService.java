@@ -1,11 +1,14 @@
 package com.onlineshop.service;
 
 import com.onlineshop.model.Product;
+import com.onlineshop.model.dto.CategoryDto;
 import com.onlineshop.model.dto.CreateProductDto;
 import com.onlineshop.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +57,24 @@ public class ProductService {
 
   public List<Product> getFeaturedProducts() {
     return productRepository.findByIsFeaturedTrue();
+  }
+
+  public List<CategoryDto> getAllCategories() {
+    List<Product> allProducts = productRepository.findAll();
+
+    Map<String, Long> categoryCounts =
+        allProducts.stream()
+            .filter(product -> product.getProductCategory() != null)
+            .collect(Collectors.groupingBy(Product::getProductCategory, Collectors.counting()));
+
+    return categoryCounts.entrySet().stream()
+        .map(
+            entry -> {
+              CategoryDto dto = new CategoryDto();
+              dto.setCategoryName(entry.getKey());
+              dto.setTotalProducts(entry.getValue().intValue());
+              return dto;
+            })
+        .collect(Collectors.toList());
   }
 }

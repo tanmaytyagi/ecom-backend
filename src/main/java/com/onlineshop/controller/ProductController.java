@@ -1,6 +1,7 @@
 package com.onlineshop.controller;
 
 import com.onlineshop.model.Product;
+import com.onlineshop.model.dto.CategoryDto;
 import com.onlineshop.model.dto.CreateProductDto;
 import com.onlineshop.service.ProductService;
 import java.util.List;
@@ -50,5 +51,11 @@ public class ProductController {
   public ResponseEntity<List<Product>> getFeaturedProducts() {
     List<Product> featuredProducts = productService.getFeaturedProducts();
     return ResponseEntity.ok(featuredProducts);
+  }
+
+  @GetMapping("/getAllCategories")
+  public ResponseEntity<List<CategoryDto>> getCategories() {
+    List<CategoryDto> categories = productService.getAllCategories();
+    return ResponseEntity.ok(categories);
   }
 }
