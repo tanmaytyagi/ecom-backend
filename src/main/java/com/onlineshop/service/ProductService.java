@@ -34,6 +34,7 @@ public class ProductService {
             .productPrice(productData.getProductPrice())
             .productCategory(productData.getProductCategory())
             .productImageUrl(productData.getProductImageUrl())
+            .isFeatured(Boolean.FALSE)
             .build();
 
     return productRepository.save(product);

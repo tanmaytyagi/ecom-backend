@@ -31,5 +31,5 @@ public class Product {
   private String productImageUrl;
 
   @Column(name = "is_featured")
-  private String isFeatured;
+  private Boolean isFeatured;
 }
