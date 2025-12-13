@@ -77,4 +77,8 @@ public class ProductService {
             })
         .collect(Collectors.toList());
   }
+
+  public List<Product> getProductsByCategory(String category) {
+      return productRepository.findByProductCategory(category);
+  }
 }
