@@ -1,6 +1,6 @@
 package com.onlineshop.service;
 
-import com.onlineshop.model.CartItems;
+import com.onlineshop.model.CartItem;
 import com.onlineshop.model.Order;
 import com.onlineshop.model.OrderData;
 import com.onlineshop.model.dto.ResponseBody;
@@ -29,10 +29,10 @@ public class OrderService {
   }
 
   public ResponseBody createOrder() {
-    List<CartItems> cartItems = cartService.getCart();
+    List<CartItem> cartItems = cartService.getCart();
     String orderId = "ODER-" + UUID.randomUUID().toString().substring(0, 8);
 
-    for (CartItems cartItem : cartItems) {
+    for (CartItem cartItem : cartItems) {
       OrderData orderEntry =
           OrderData.builder()
               .id(UUID.randomUUID().toString().substring(0, 8))

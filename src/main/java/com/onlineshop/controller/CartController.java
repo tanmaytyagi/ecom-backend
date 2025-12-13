@@ -1,6 +1,6 @@
 package com.onlineshop.controller;
 
-import com.onlineshop.model.CartItems;
+import com.onlineshop.model.CartItem;
 import com.onlineshop.model.dto.ResponseBody;
 import com.onlineshop.service.CartService;
 import java.util.List;
@@ -19,20 +19,20 @@ public class CartController {
   }
 
   @GetMapping("/getCart")
-  public ResponseEntity<List<CartItems>> getCart() {
-    List<CartItems> items = cartService.getCart();
+  public ResponseEntity<List<CartItem>> getCart() {
+    List<CartItem> items = cartService.getCart();
     return ResponseEntity.ok(items);
   }
 
   @PostMapping("/addItem/{productId}")
-  public ResponseEntity<List<CartItems>> addItem(@PathVariable("productId") String productId) {
-    List<CartItems> items = cartService.addItem(productId);
+  public ResponseEntity<List<CartItem>> addItem(@PathVariable("productId") String productId) {
+    List<CartItem> items = cartService.addItem(productId);
     return ResponseEntity.ok(items);
   }
 
   @PostMapping("/removeItem/{productId}")
-  public ResponseEntity<List<CartItems>> removeItem(@PathVariable("productId") String productId) {
-    List<CartItems> items = cartService.removeItem(productId);
+  public ResponseEntity<List<CartItem>> removeItem(@PathVariable("productId") String productId) {
+    List<CartItem> items = cartService.removeItem(productId);
     return ResponseEntity.ok(items);
   }
 

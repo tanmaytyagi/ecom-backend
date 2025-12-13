@@ -1,11 +1,11 @@
 package com.onlineshop.repository;
 
-import com.onlineshop.model.CartItems;
+import com.onlineshop.model.CartItem;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CartRepository extends JpaRepository<CartItems, String> {
+public interface CartRepository extends JpaRepository<CartItem, String> {
   boolean existsByProductId(String productId);
 
-  Optional<CartItems> findByProductId(String productId);
+  Optional<CartItem> findByProductId(String productId);
 }

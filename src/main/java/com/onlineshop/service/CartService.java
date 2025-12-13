@@ -1,6 +1,6 @@
 package com.onlineshop.service;
 
-import com.onlineshop.model.CartItems;
+import com.onlineshop.model.CartItem;
 import com.onlineshop.model.Product;
 import com.onlineshop.repository.CartRepository;
 import com.onlineshop.repository.ProductRepository;
@@ -22,11 +22,11 @@ public class CartService {
     this.productRepository = productRepository;
   }
 
-  public List<CartItems> getCart() {
+  public List<CartItem> getCart() {
     return cartRepository.findAll();
   }
 
-  public List<CartItems> addItem(String productId) {
+  public List<CartItem> addItem(String productId) {
     boolean itemExists = cartRepository.existsByProductId(productId);
 
     if (!itemExists) {
@@ -37,8 +37,8 @@ public class CartService {
 
       String shortUuid = UUID.randomUUID().toString().substring(0, 8);
 
-      CartItems cartItem =
-          CartItems.builder()
+      CartItem cartItem =
+          CartItem.builder()
               .id(shortUuid)
               .productId(productId)
               .productPrice(product.get().getProductPrice())
@@ -49,9 +49,9 @@ public class CartService {
       return cartRepository.findAll();
     }
 
-    Optional<CartItems> fetchedItemOpt = cartRepository.findByProductId(productId);
+    Optional<CartItem> fetchedItemOpt = cartRepository.findByProductId(productId);
     if (fetchedItemOpt.isPresent()) {
-      CartItems fetchedItem = fetchedItemOpt.get();
+      CartItem fetchedItem = fetchedItemOpt.get();
       fetchedItem.setQuantity(fetchedItem.getQuantity() + 1);
       cartRepository.save(fetchedItem);
     }
@@ -59,14 +59,14 @@ public class CartService {
     return cartRepository.findAll();
   }
 
-  public List<CartItems> removeItem(String productId) {
-    Optional<CartItems> fetchedItemOpt = cartRepository.findByProductId(productId);
+  public List<CartItem> removeItem(String productId) {
+    Optional<CartItem> fetchedItemOpt = cartRepository.findByProductId(productId);
 
     if (fetchedItemOpt.isEmpty()) {
       return cartRepository.findAll();
     }
 
-    CartItems fetchedItem = fetchedItemOpt.get();
+    CartItem fetchedItem = fetchedItemOpt.get();
     fetchedItem.setQuantity(fetchedItem.getQuantity() - 1);
 
     if (fetchedItem.getQuantity() == 0) {

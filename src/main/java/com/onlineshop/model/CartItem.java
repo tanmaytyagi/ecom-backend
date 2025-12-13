@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "carts")
+@Table(name = "cart")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CartItems {
+public class CartItem {
 
   @Id
   @Column(name = "id", nullable = false, unique = true)
