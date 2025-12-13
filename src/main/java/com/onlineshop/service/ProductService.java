@@ -51,4 +51,8 @@ public class ProductService {
   public Product getProductById(String productId) {
     return productRepository.findById(productId).orElse(null);
   }
+
+  public List<Product> getFeaturedProducts() {
+    return productRepository.findByIsFeaturedTrue();
+  }
 }

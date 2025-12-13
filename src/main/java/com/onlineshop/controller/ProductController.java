@@ -45,4 +45,10 @@ public class ProductController {
     }
     return ResponseEntity.ok(product);
   }
+
+  @GetMapping("/getFeaturedProducts")
+  public ResponseEntity<List<Product>> getFeaturedProducts() {
+    List<Product> featuredProducts = productService.getFeaturedProducts();
+    return ResponseEntity.ok(featuredProducts);
+  }
 }
