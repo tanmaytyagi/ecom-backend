@@ -3,6 +3,7 @@ package com.onlineshop.service;
 import com.onlineshop.model.CartItems;
 import com.onlineshop.model.Order;
 import com.onlineshop.model.OrderData;
+import com.onlineshop.model.dto.ResponseBody;
 import com.onlineshop.repository.OrderDataRepository;
 import com.onlineshop.repository.OrderRepository;
 import java.time.LocalDateTime;
@@ -27,13 +28,9 @@ public class OrderService {
     this.cartService = cartService;
   }
 
-  public Order createOrder() {
+  public ResponseBody createOrder() {
     List<CartItems> cartItems = cartService.getCart();
     String orderId = "ODER-" + UUID.randomUUID().toString().substring(0, 8);
-
-    Order order =
-        Order.builder().orderId(orderId).status("PENDING").createdAt(LocalDateTime.now()).build();
-    orderRepository.save(order);
 
     for (CartItems cartItem : cartItems) {
       OrderData orderEntry =
@@ -46,8 +43,22 @@ public class OrderService {
       orderDataRepository.save(orderEntry);
     }
 
+    ResponseBody response = new ResponseBody();
+
+    if (cartItems.isEmpty()) {
+      response.setMessage("Cart is empty");
+      response.setStatus("FAILED");
+      return response;
+    }
+
+    Order order =
+        Order.builder().orderId(orderId).status("PENDING").createdAt(LocalDateTime.now()).build();
+    orderRepository.save(order);
     cartService.clearCart();
-    return order;
+
+    response.setMessage("Order has been created");
+    response.setStatus("SUCCESS");
+    return response;
   }
 
   public List<Order> getOrderHistory() {

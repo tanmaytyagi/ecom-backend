@@ -1,6 +1,7 @@
 package com.onlineshop.controller;
 
 import com.onlineshop.model.Order;
+import com.onlineshop.model.dto.ResponseBody;
 import com.onlineshop.service.OrderService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,8 @@ public class OrderController {
   }
 
   @PostMapping("/createOrder")
-  public ResponseEntity<Order> createOrder() {
-    Order order = orderService.createOrder();
-    return ResponseEntity.ok(order);
+  public ResponseEntity<ResponseBody> createOrder() {
+    return ResponseEntity.ok().body(orderService.createOrder());
   }
 
   @GetMapping("/orderHistory")
