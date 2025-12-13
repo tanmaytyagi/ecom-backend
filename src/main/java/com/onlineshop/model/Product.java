@@ -29,4 +29,7 @@ public class Product {
 
   @Column(name = "product_image_url")
   private String productImageUrl;
+
+  @Column(name = "is_featured")
+  private String isFeatured;
 }
