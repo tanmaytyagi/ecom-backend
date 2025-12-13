@@ -38,15 +38,6 @@ public class ProductController {
     return ResponseEntity.ok().body(createdProducts);
   }
 
-  @GetMapping("/getProduct/{productId}")
-  public ResponseEntity<Product> getProduct(@PathVariable("productId") String productId) {
-    Product product = productService.getProductById(productId);
-    if (product == null) {
-      return ResponseEntity.notFound().build();
-    }
-    return ResponseEntity.ok(product);
-  }
-
   @GetMapping("/getFeaturedProducts")
   public ResponseEntity<List<Product>> getFeaturedProducts() {
     List<Product> featuredProducts = productService.getFeaturedProducts();
