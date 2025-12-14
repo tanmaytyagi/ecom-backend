@@ -1,7 +1,6 @@
 package com.onlineshop.controller;
 
 import com.onlineshop.model.dto.CartDto;
-import com.onlineshop.model.dto.ResponseBody;
 import com.onlineshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,11 +35,8 @@ public class CartController {
   }
 
   @DeleteMapping("/clearCart")
-  public ResponseEntity<ResponseBody> clearCart() {
-    cartService.clearCart();
-    ResponseBody response = new ResponseBody();
-    response.setMessage("Cart cleared successfully");
-    response.setStatus("SUCCESS");
-    return ResponseEntity.ok(response);
+  public ResponseEntity<CartDto> clearCart() {
+    CartDto cart = cartService.clearCart();
+    return ResponseEntity.ok(cart);
   }
 }

@@ -99,7 +99,8 @@ public class CartService {
   }
 
   @Transactional
-  public void clearCart() {
+  public CartDto clearCart() {
     cartRepository.deleteAll();
+    return getCart();
   }
 }
