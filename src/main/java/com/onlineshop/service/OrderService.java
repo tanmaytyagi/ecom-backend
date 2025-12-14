@@ -4,6 +4,7 @@ import com.onlineshop.model.CartItem;
 import com.onlineshop.model.Order;
 import com.onlineshop.model.OrderData;
 import com.onlineshop.model.dto.ResponseBody;
+import com.onlineshop.repository.CartRepository;
 import com.onlineshop.repository.OrderDataRepository;
 import com.onlineshop.repository.OrderRepository;
 import java.time.LocalDateTime;
@@ -16,20 +17,20 @@ import org.springframework.stereotype.Service;
 public class OrderService {
   private final OrderRepository orderRepository;
   private final OrderDataRepository orderDataRepository;
-  private final CartService cartService;
+  private final CartRepository cartRepository;
 
   @Autowired
   public OrderService(
       OrderRepository orderRepository,
       OrderDataRepository orderDataRepository,
-      CartService cartService) {
+      CartRepository cartRepository) {
     this.orderRepository = orderRepository;
     this.orderDataRepository = orderDataRepository;
-    this.cartService = cartService;
+    this.cartRepository = cartRepository;
   }
 
   public ResponseBody createOrder() {
-    List<CartItem> cartItems = cartService.getCart();
+    List<CartItem> cartItems = cartRepository.findAll();
     String orderId = "ODER-" + UUID.randomUUID().toString().substring(0, 8);
 
     for (CartItem cartItem : cartItems) {
@@ -54,7 +55,7 @@ public class OrderService {
     Order order =
         Order.builder().orderId(orderId).status("PENDING").createdAt(LocalDateTime.now()).build();
     orderRepository.save(order);
-    cartService.clearCart();
+    cartRepository.deleteAll();
 
     response.setMessage("Order has been created");
     response.setStatus("SUCCESS");

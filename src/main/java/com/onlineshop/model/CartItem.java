@@ -21,9 +21,15 @@ public class CartItem {
   @Column(name = "product_name")
   private String productName;
 
+  @Column(name = "product_category")
+  private String productCategory;
+
   @Column(name = "quantity")
   private Integer quantity;
 
   @Column(name = "product_price")
   private Double productPrice;
+
+  @Column(name = "total_price")
+  private Double totalPrice;
 }

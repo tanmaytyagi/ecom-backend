@@ -1,9 +1,8 @@
 package com.onlineshop.controller;
 
-import com.onlineshop.model.CartItem;
+import com.onlineshop.model.dto.CartDto;
 import com.onlineshop.model.dto.ResponseBody;
 import com.onlineshop.service.CartService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,21 +18,21 @@ public class CartController {
   }
 
   @GetMapping("/getCart")
-  public ResponseEntity<List<CartItem>> getCart() {
-    List<CartItem> items = cartService.getCart();
-    return ResponseEntity.ok(items);
+  public ResponseEntity<CartDto> getCart() {
+    CartDto cart = cartService.getCart();
+    return ResponseEntity.ok(cart);
   }
 
   @PostMapping("/addItem/{productId}")
-  public ResponseEntity<List<CartItem>> addItem(@PathVariable("productId") String productId) {
-    List<CartItem> items = cartService.addItem(productId);
-    return ResponseEntity.ok(items);
+  public ResponseEntity<CartDto> addItem(@PathVariable("productId") String productId) {
+    CartDto cart = cartService.addItem(productId);
+    return ResponseEntity.ok(cart);
   }
 
   @PostMapping("/removeItem/{productId}")
-  public ResponseEntity<List<CartItem>> removeItem(@PathVariable("productId") String productId) {
-    List<CartItem> items = cartService.removeItem(productId);
-    return ResponseEntity.ok(items);
+  public ResponseEntity<CartDto> removeItem(@PathVariable("productId") String productId) {
+    CartDto cart = cartService.removeItem(productId);
+    return ResponseEntity.ok(cart);
   }
 
   @DeleteMapping("/clearCart")

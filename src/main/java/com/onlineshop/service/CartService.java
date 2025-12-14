@@ -2,6 +2,8 @@ package com.onlineshop.service;
 
 import com.onlineshop.model.CartItem;
 import com.onlineshop.model.Product;
+import com.onlineshop.model.dto.CartDto;
+import com.onlineshop.model.dto.OrderSummary;
 import com.onlineshop.repository.CartRepository;
 import com.onlineshop.repository.ProductRepository;
 import java.util.List;
@@ -22,17 +24,31 @@ public class CartService {
     this.productRepository = productRepository;
   }
 
-  public List<CartItem> getCart() {
-    return cartRepository.findAll();
+  public CartDto getCart() {
+    CartDto cartDto = new CartDto();
+    List<CartItem> cartItems = cartRepository.findAll();
+    cartDto.setCartItems(cartItems);
+    Double subtotal = (double) 0;
+    Integer totalItems = 0;
+    for (CartItem cartItem : cartItems) subtotal += cartItem.getTotalPrice();
+    for (CartItem cartItem : cartItems) totalItems += cartItem.getQuantity();
+    cartDto.setTotalItems(totalItems);
+    OrderSummary orderSummary = new OrderSummary();
+    orderSummary.setSubtotal(subtotal);
+    orderSummary.setTaxPercentage(18);
+    orderSummary.setTaxAmount(0.18 * subtotal);
+    orderSummary.setTotal(orderSummary.getTaxAmount() + orderSummary.getSubtotal());
+    cartDto.setOrderSummary(orderSummary);
+    return cartDto;
   }
 
-  public List<CartItem> addItem(String productId) {
+  public CartDto addItem(String productId) {
     boolean itemExists = cartRepository.existsByProductId(productId);
 
     if (!itemExists) {
       Optional<Product> product = productRepository.findById(productId);
       if (product.isEmpty()) {
-        return null;
+        return getCart();
       }
 
       String shortUuid = UUID.randomUUID().toString().substring(0, 8);
@@ -43,31 +59,35 @@ public class CartService {
               .productId(productId)
               .productPrice(product.get().getProductPrice())
               .productName(product.get().getProductName())
+              .productCategory(product.get().getProductCategory())
               .quantity(1)
+              .totalPrice(product.get().getProductPrice())
               .build();
       cartRepository.save(cartItem);
-      return cartRepository.findAll();
+      return getCart();
     }
 
     Optional<CartItem> fetchedItemOpt = cartRepository.findByProductId(productId);
     if (fetchedItemOpt.isPresent()) {
       CartItem fetchedItem = fetchedItemOpt.get();
       fetchedItem.setQuantity(fetchedItem.getQuantity() + 1);
+      fetchedItem.setTotalPrice(fetchedItem.getTotalPrice() + fetchedItem.getProductPrice());
       cartRepository.save(fetchedItem);
     }
 
-    return cartRepository.findAll();
+    return getCart();
   }
 
-  public List<CartItem> removeItem(String productId) {
+  public CartDto removeItem(String productId) {
     Optional<CartItem> fetchedItemOpt = cartRepository.findByProductId(productId);
 
     if (fetchedItemOpt.isEmpty()) {
-      return cartRepository.findAll();
+      return getCart();
     }
 
     CartItem fetchedItem = fetchedItemOpt.get();
     fetchedItem.setQuantity(fetchedItem.getQuantity() - 1);
+    fetchedItem.setTotalPrice(fetchedItem.getTotalPrice() - fetchedItem.getProductPrice());
 
     if (fetchedItem.getQuantity() == 0) {
       cartRepository.deleteById(fetchedItem.getId());
@@ -75,7 +95,7 @@ public class CartService {
       cartRepository.save(fetchedItem);
     }
 
-    return cartRepository.findAll();
+    return getCart();
   }
 
   @Transactional
