@@ -19,23 +19,17 @@ public class ProductController {
     this.productService = productService;
   }
 
-  @GetMapping("/getAllProducts")
-  public ResponseEntity<List<Product>> getAllProducts() {
-    List<Product> products = productService.getAllProducts();
-    return ResponseEntity.ok(products);
-  }
-
-  @PostMapping("/createProduct")
-  public ResponseEntity<Product> createProduct(@RequestBody CreateProductDto productData) {
-    Product createdProduct = productService.createProduct(productData);
-    return ResponseEntity.ok().body(createdProduct);
-  }
-
   @PostMapping("/createProductBulk")
   public ResponseEntity<List<Product>> createProductBulk(
       @RequestBody List<CreateProductDto> productsData) {
     List<Product> createdProducts = productService.createProductBulk(productsData);
     return ResponseEntity.ok().body(createdProducts);
+  }
+
+  @GetMapping("/getAllProducts")
+  public ResponseEntity<List<Product>> getAllProducts() {
+    List<Product> products = productService.getAllProducts();
+    return ResponseEntity.ok(products);
   }
 
   @GetMapping("/getFeaturedProducts")

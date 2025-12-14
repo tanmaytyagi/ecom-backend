@@ -26,6 +26,14 @@ public class ProductService {
     return productRepository.findAll();
   }
 
+  public List<Product> createProductBulk(List<CreateProductDto> productsData) {
+    List<Product> products = new ArrayList<>();
+    for (CreateProductDto productData : productsData) {
+      products.add(createProduct(productData));
+    }
+    return products;
+  }
+
   public Product createProduct(CreateProductDto productData) {
     String shortUuid = UUID.randomUUID().toString().substring(0, 8);
 
@@ -41,14 +49,6 @@ public class ProductService {
             .build();
 
     return productRepository.save(product);
-  }
-
-  public List<Product> createProductBulk(List<CreateProductDto> productsData) {
-    List<Product> products = new ArrayList<>();
-    for (CreateProductDto productData : productsData) {
-      products.add(createProduct(productData));
-    }
-    return products;
   }
 
   public List<Product> getFeaturedProducts() {
